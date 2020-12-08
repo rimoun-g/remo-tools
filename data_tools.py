@@ -68,6 +68,7 @@ class DataTools:
             
         Returns:
             the difference between the two dates
+            returns None if the dates are in wrong format
             
         Examples:
             > days_between("01/11/2020","31/12/2020","days")
@@ -76,18 +77,44 @@ class DataTools:
             > days_between("01/11/2020","31/12/2020","years")
             > 0.164
         """
-        date1 = datetime.strptime(date1, "%d/%m/%Y")
-        date2 = datetime.strptime(date2, "%d/%m/%Y")
-        diff = abs((date2 - date1).days) 
-        # converting days to years
-        fin_diff = 0.0
-        if unit=="years" or unit=="y":
-            fin_diff = round(diff/365,3)
-        if unit=="months" or unit=="m":
-            fin_diff = round(diff/30,3)
-        if unit=="days" or unit=="d":
-            fin_diff = diff
-        return fin_diff
+        try:
+            date1 = datetime.strptime(date1, "%d/%m/%Y")
+            date2 = datetime.strptime(date2, "%d/%m/%Y")
+            diff = abs((date2 - date1).days) 
+            # converting days to years
+            fin_diff = 0.0
+            if unit=="years" or unit=="y":
+                fin_diff = round(diff/365,3)
+            if unit=="months" or unit=="m":
+                fin_diff = round(diff/30,3)
+            if unit=="days" or unit=="d":
+                fin_diff = diff
+            return fin_diff
+        except ValueError:
+            "The date format is not correct. It should be dd/mm/yyyy"
+            return None
 
 
-
+    def list_to_dict(lst):
+            """
+            This function enumerates a list and return enumerated list in form of a dictionary
+                    Args:
+                        list: the list to be convetrted to dictionary
+                        
+                    Returns: 
+                        dictionary: the enumarted list values as keys and numbers as values in a dictionary
+                        
+            		example:
+                    		> list_to_dict(['a','b','c'])
+                    		> {'a':0,'b':1,'c':2}
+            """
+            try:
+                dictionary = {}
+                for value, key in enumerate(lst):
+                    dictionary[key] = value
+                return dictionary
+            except TypeError:
+                "The entered value is not a list"
+                return None
+            
+    
